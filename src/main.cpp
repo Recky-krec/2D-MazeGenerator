@@ -21,7 +21,7 @@ void destroyWalls(Cell* current, Cell* next);
 
 int main()
 {
-    // Manually Configuring Window and Grid (AUTOMATIC must be 0)
+    // Manually configurable settings (AUTOMATIC must be 0)
     // ---------------------------
     int difficulty            = 100;                               // Defines how close the end is from the start
     int windowWidth           = 600;                               // It is recommend to make the windowWidth...
@@ -149,6 +149,8 @@ int main()
             // Stop processing when maze is done
             } else {
                 isPaused = true;
+                sf::Image screenshot = window.capture();
+                screenshot.saveToFile("../generated_maze.jpg");
             }
 
         }
