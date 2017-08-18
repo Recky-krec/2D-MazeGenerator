@@ -61,7 +61,6 @@ private:
                        mRightWall;
 
     sf::RectangleShape mMarker;
-
     sf::Clock mClock;           // To make better randomization
 
 };

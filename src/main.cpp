@@ -3,31 +3,65 @@
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
-
 #include <SFML/Graphics.hpp>
-
 #include "Cell.h"
 
+/*
+ * 2D Maze Generator created by Krec:
+ * Green square represents the start and red square represents the end
+ * It is recommend to let AUTOMATIC set to 1. This way you can linearly control the maze by just inputing a number [1-100]
+ * If AUTOMATIC is set to 0, you can configure the maze in the variables bellow (read the comments)
+ * Be aware that it is possible for the maze creator to fail to create a maze and stop in the process (very rare)
+ */
+
+#define AUTOMATIC 1
+
+// Function prototypes
 void destroyWalls(Cell* current, Cell* next);
 
 int main()
 {
-    //TODO: Command line arguments for width/height of window
-
-    // Configuring Window and Grid
+    // Manually Configuring Window and Grid (AUTOMATIC must be 0)
     // ---------------------------
-    const int difficulty      = 90;
-    const int windowWidth     = 900;
-    const int windowHeight    = 900;
-    const int wallLength      = 10;
-    const int wallThickness   = 2;
-    sf::Color wallColor       = sf::Color::White;
-    sf::Color backgroundColor = sf::Color(55, 55, 55, 255);
-    const int highestRow      = windowWidth / wallLength; // Both the constants have to...
-    const int highestCol      = windowHeight / wallLength; //... be divisible by eachother otherwise it segfaults
+    int difficulty            = 100;                               // Defines how close the end is from the start
+    int windowWidth           = 600;                               // It is recommend to make the windowWidth...
+    int windowHeight          = 600;                               //...the same as the window height
+    float wallLength          = 30;                                // The lower this value, the bigger the maze
+    int wallThickness         = 2;                                 // The thickness of the wall
+    sf::Color wallColor       = sf::Color::White;                  // The color of the wall
+    sf::Color backgroundColor = sf::Color(55, 55, 55, 255);        // The background color (RGBA)
+    int highestRow            = (int)(windowWidth / wallLength);   // wallLength and windowWidth have to be divisible...
+    int highestCol            = (int)(windowHeight / wallLength);  //...by otherwise it segfaults
     const int FPS             = 300;
+    bool isPaused             = false;
 
-    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "MazePrototype");
+#if AUTOMATIC
+    // Get difficulty input
+    // --------------------
+    std::cout << "Difficulty [1-100]: " << std::endl;
+    std::cin >> difficulty;
+    if(difficulty<1 || difficulty>100) throw std::runtime_error("Out of range Difficulty value");
+    if(difficulty<15)
+        difficulty = 15;
+
+
+    // Configure Grid and window attributes
+    // -----------------------------------.
+    wallLength     = 1000 / difficulty;
+
+    if( int(std::ceil(wallLength)) % 2 == 0)                       // If the ceil of wallLength is divisible by two, assign it
+        wallLength = std::ceil(wallLength);
+
+    if( int(std::floor(wallLength)) % 2 == 0)                      // If the floor of wallLength is divisible by two, assign it
+        wallLength = std::floor(wallLength);                       // In other words, we wan't to make sure wallLength is divisible by two
+
+    windowWidth     = 10 * (difficulty+15);                        // Being the maze bigger, we want...
+    windowHeight    = 10 * (difficulty+15);                        //... the window to be bigger
+    highestRow      = (int)std::ceil(windowWidth / wallLength);
+    highestCol      = (int)std::ceil(windowHeight / wallLength);
+#endif
+
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "2D-MazeGenerator");
     window.setFramerateLimit(FPS);
 
     // Creating Grid
@@ -47,16 +81,19 @@ int main()
         }
     }
 
-    // Make the initial cell the current cell and mark it as visited
-    // ------------------------------------
-    Cell* currentCell = &grid[0][0];
-    currentCell->visit(Cell::START);        // Starting Cell
+
+    // Variables used in game loop
+    // ---------------------------
+    Cell* currentCell = &grid[0][0];                // Make the initial cell the current cell...
+    currentCell->visit(Cell::START);                //...and mark it as visited
     Cell* nextCell;
     std::stack<Cell*> backtrackCells;
-    bool isPaused = false;
 
-    float multiplier = (difficulty/100.0f); // Based on the difficulty
-    // ------------------------------------
+
+    difficulty = difficulty < 30 ? 30 : difficulty; // Used to...
+    difficulty = difficulty > 97 ? 95 : difficulty; //...prevent bugs
+    float multiplier = (difficulty/100.0f);         // The higher the difficulty, the further is the end
+    // ---------------------------
 
     while(window.isOpen())
     {
