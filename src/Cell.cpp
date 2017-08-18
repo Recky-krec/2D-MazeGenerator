@@ -3,9 +3,9 @@
 void destroyWalls(Cell* current, Cell* next);
 
 Cell::Cell()
-: mIsVisited(false)
+: mIsVisited(false),
+  mIsWallDestroyed {false, false, false, false}
 {
-    mIsWallDestroyed = new bool[4]{false};
 }
 
 Cell::Cell(int x, int y, int length, int thickness, sf::Color color)
@@ -13,17 +13,12 @@ Cell::Cell(int x, int y, int length, int thickness, sf::Color color)
   mX(x),
   mY(y),
   mLength(length),
-  mThickness(thickness)
+  mThickness(thickness),
+  mIsWallDestroyed {false, false, false, false}
 {
-    mIsWallDestroyed = new bool[4]{false};
     mRow = x/length;
     mCol = y/length;
     initWalls(color);
-}
-
-Cell::~Cell()
-{
-    //delete [] mIsWallDestroyed; // Find a way to do this
 }
 
 void Cell::destroy(Wall direction)
@@ -62,7 +57,6 @@ void Cell::visit(Mark mark)
         mMarker.setSize(sf::Vector2f(mLength/2, mLength/2));
         mMarker.setFillColor(sf::Color::Red);
     }
-
 
 }
 

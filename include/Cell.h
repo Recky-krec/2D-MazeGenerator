@@ -28,7 +28,6 @@ public:
 public:
     Cell();
     Cell(int x, int y, int length, int thickness, sf::Color color = sf::Color::White);
-    ~Cell();
 
     // Checkers&Getters
     inline int  getRow()    const { return mRow; }
@@ -53,7 +52,7 @@ private:
     int mRow, mCol;             // Cell grid coordinates
     int mLength, mThickness;    // Cell wall length and thickness
 
-    bool* mIsWallDestroyed;
+    bool  mIsWallDestroyed[4];
     bool  mIsVisited;
 
     sf::RectangleShape mTopWall,

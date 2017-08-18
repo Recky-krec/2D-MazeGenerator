@@ -16,10 +16,10 @@ int main()
 
     // Configuring Window and Grid
     // ---------------------------
-    const int difficulty      = 50;
-    const int windowWidth     = 1000;
-    const int windowHeight    = 1000;
-    const int wallLength      = 2000 / difficulty;
+    const int difficulty      = 90;
+    const int windowWidth     = 900;
+    const int windowHeight    = 900;
+    const int wallLength      = 10;
     const int wallThickness   = 2;
     sf::Color wallColor       = sf::Color::White;
     sf::Color backgroundColor = sf::Color(55, 55, 55, 255);
