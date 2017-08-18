@@ -150,7 +150,7 @@ int main()
             } else {
                 isPaused = true;
                 sf::Image screenshot = window.capture();
-                screenshot.saveToFile("../generated_maze.jpg");
+                screenshot.saveToFile("../screenshots/generated_maze.jpg");
             }
 
         }
