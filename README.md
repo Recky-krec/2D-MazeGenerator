@@ -10,5 +10,6 @@ There is also a difficulty system [1-100] (working on it)
 - CMake
 
 ## ScreenShot
- 2D-MazeGenerator/screenshots/Maze90.png
+![Alt text](2D-MazeGenerator/screenshots/Maze90.png?raw=true "A-Maze-D")
+
 
