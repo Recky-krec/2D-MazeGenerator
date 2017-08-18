@@ -2,13 +2,12 @@
 A 2D maze generator that is based of "Depth-first search" and "Recursive backtracker" algorithms.
 This maze has a "difficulty" system, where the user inputs a value [1-100] and based on that, the generated maze will be either harder (the higher the value) or easier (the lower the value). The maze can also be configured manually at the top of the `main.cpp` where some maze attribute variables are listed.
 
-![c++](https://img.shields.io/badge/Language-C%2B%2B-green.svg) [![sfml](https://img.shields.io/badge/Dependencies-SFML%202.4.2-green.svg)](https://www.sfml-dev.org/) ![linuxbuild](https://img.shields.io/travis/USER/REPO/BRANCH.svg)
+![c++](https://img.shields.io/badge/Language-C%2B%2B-green.svg) [![sfml](https://img.shields.io/badge/Dependencies-SFML%202.4.2-green.svg)](https://www.sfml-dev.org/)
 
 ## Building the game
 ### Dependencies
 #### Linux - SFML
 - If you're on linux you can build the _SFML library_ by yourself following this step-by-step tutorial: https://www.sfml-dev.org/tutorials/2.0/compile-with-cmake.php
-####or
 - You can install it by your package manager (if you use aptitude): ``sudo apt-get install libsfml-dev``
 
 #### Windows/Mac OS
